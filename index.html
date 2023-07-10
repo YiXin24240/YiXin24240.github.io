@@ -385,6 +385,117 @@
 
 
   
+    <article id="post-Mysql语法汇总" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2023/05/29/Mysql%E8%AF%AD%E6%B3%95%E6%B1%87%E6%80%BB/" target="_blank">mysql</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2023/05/29/Mysql%E8%AF%AD%E6%B3%95%E6%B1%87%E6%80%BB/" class="archive-article-date">
+        <time datetime="2023-05-29T06:00:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-29</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">复制代码</span><br><span class="line"><span class="number">1.</span>数据库操作——创建、删除、切换、查看当前选择的数据库</span><br><span class="line"><span class="keyword">create</span> database 数据库名 charset<span class="operator">=</span>utf8;   <span class="operator">/</span><span class="operator">/</span>创建数据库</span><br><span class="line"><span class="keyword">drop</span> database 数据库名;  <span class="operator">/</span><span class="operator">/</span>删除数据库</span><br><span class="line">use 数据库名;        <span class="operator">/</span><span class="operator">/</span>选择数据库</span><br><span class="line"><span class="keyword">select</span> database(); <span class="operator">/</span><span class="operator">/</span>查看当前选择的数据库</span><br><span class="line"><span class="keyword">show</span> databases; <span class="operator">/</span><span class="operator">/</span>查看当前所有的数据库：</span><br></pre></td></tr></table></figure>
+
+<p> 2.表操作——查看、删除、修改</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> tables; <span class="operator">/</span><span class="operator">/</span>查看当前数据库中的所有表</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> `tc_base`(`tc_base_id` <span class="type">INT</span> UNSIGNED <span class="operator">/</span><span class="operator">/</span>创建表 UTO_INCREMENT, <span class="keyword">PRIMARY</span> KEY ( `tc_base_id` ) )ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名 <span class="keyword">add</span><span class="operator">|</span>change<span class="operator">|</span><span class="keyword">drop</span> 列名 类型; <span class="operator">/</span><span class="operator">/</span>修改表    </span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> 表名;    <span class="operator">/</span><span class="operator">/</span>删除表    </span><br><span class="line"><span class="keyword">desc</span> 表名;   <span class="operator">/</span><span class="operator">/</span>查看表结构     rename <span class="keyword">table</span> 原表名 <span class="keyword">to</span> 新表名;    <span class="operator">/</span><span class="operator">/</span>更改表名称</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> testalter_tbl change 旧列名字 新列名字 <span class="type">bigint</span>;    <span class="operator">/</span><span class="operator">/</span>更改表中列信息</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> 表名；     <span class="operator">/</span><span class="operator">/</span>查看表的创建语句</span><br></pre></td></tr></table></figure>
+
+<p> 3.数据操作</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">全列插入：<span class="keyword">insert</span> <span class="keyword">into</span> 表名 <span class="keyword">values</span>(...) ；缺省插入：<span class="keyword">insert</span> <span class="keyword">into</span> 表名(列<span class="number">1</span>,...) <span class="keyword">values</span>(值<span class="number">1</span>,...)</span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> 表名 <span class="keyword">where</span> 条件; <span class="operator">/</span><span class="operator">/</span>删除   <span class="keyword">update</span> 表名 <span class="keyword">set</span> 列<span class="number">1</span><span class="operator">=</span>值<span class="number">1</span>,..,<span class="keyword">where</span> 条件    <span class="operator">/</span><span class="operator">/</span>修改</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名; <span class="operator">/</span><span class="operator">/</span>查询</span><br></pre></td></tr></table></figure>
+
+<p> 4.备份与恢复</p>
+<p> 备份&gt;：进入mysql目录，运行mysqldump命令：mysqldump –uroot –p 数据库名 &gt; ~&#x2F;Desktop&#x2F;备份文件.sql;</p>
+<p> 恢复&lt;：连接mysql创建数据库，退出连接执行命令: mysql -uroot –p 数据库名 &lt; ~&#x2F;Desktop&#x2F;备份文件.sql</p>
+<p>** 二、MySQL查询**</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>消去重复行：<span class="keyword">select</span> <span class="keyword">distinct</span> gender <span class="keyword">from</span> students;</span><br><span class="line"><span class="number">2.</span>条件 优先级：小括号，<span class="keyword">not</span>，比较运算符，逻辑运算符</span><br><span class="line">①逻辑运算符：<span class="keyword">and</span> <span class="keyword">or</span> <span class="keyword">not</span>         ②模糊查询：<span class="keyword">like</span> <span class="operator">%</span>任意多 _任一个（可能一个汉字两个_）</span><br><span class="line">③范围查询<span class="keyword">in</span>、<span class="keyword">between</span> <span class="keyword">and</span>、<span class="keyword">is</span> <span class="keyword">null</span>、<span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span>: <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> students <span class="keyword">where</span> id <span class="keyword">in</span>(<span class="number">1</span>,<span class="number">3</span>,<span class="number">8</span>);</span><br><span class="line"><span class="number">3.</span>聚合 <span class="built_in">count</span>(<span class="operator">*</span>) max min sum <span class="built_in">avg</span>(列) <span class="keyword">select</span> <span class="built_in">avg</span>(id) <span class="keyword">from</span> students <span class="keyword">where</span> isdelete<span class="operator">=</span><span class="number">0</span> <span class="keyword">and</span> gender<span class="operator">=</span><span class="number">0</span>;</span><br><span class="line"><span class="number">4.</span>分组：例如：<span class="keyword">select</span> gender <span class="keyword">as</span> 性别,<span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> students <span class="keyword">group</span> <span class="keyword">by</span> gender <span class="keyword">having</span> gender<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line"><span class="number">5.</span>排序     默认<span class="keyword">asc</span>升序 <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> students <span class="keyword">where</span> gender<span class="operator">=</span><span class="number">1</span> <span class="keyword">order</span> <span class="keyword">by</span> id <span class="keyword">desc</span>;</span><br><span class="line"><span class="number">6.</span>获取部分行        <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 limit <span class="keyword">start</span>,count</span><br><span class="line">完整的查询语句：<span class="keyword">select</span> <span class="keyword">distinct</span> <span class="operator">*</span> <span class="keyword">from</span> 表名 <span class="keyword">where</span> .... <span class="keyword">group</span> <span class="keyword">by</span> ... <span class="keyword">having</span> ... <span class="keyword">order</span> <span class="keyword">by</span> ... limit star,coun</span><br></pre></td></tr></table></figure>
+
+<p>** 三、连接查询**</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> students.sname,<span class="built_in">avg</span>(scores.score) <span class="keyword">from</span> scores <span class="keyword">inner</span> <span class="keyword">join</span> students <span class="keyword">on</span> scores.stuid<span class="operator">=</span>students.id;</span><br></pre></td></tr></table></figure>
+
+<p>** 四、嵌套查询（子查询）**</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> sname, (<span class="keyword">select</span> score <span class="keyword">from</span> scores <span class="keyword">where</span> sub.stitle<span class="operator">=</span><span class="string">&#x27;语文&#x27;</span>) <span class="keyword">as</span> 语文<span class="keyword">from</span> students stu;</span><br></pre></td></tr></table></figure>
+
+<p>** 五、字符串函数**</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">①查看字符对应的ascii码 <span class="keyword">select</span> ascii(<span class="string">&#x27;a&#x27;</span>);    ②查看ascii对应的字符 <span class="keyword">select</span> <span class="type">char</span>(<span class="number">97</span>);</span><br><span class="line">③拼接字符串<span class="keyword">select</span> concat(<span class="number">12</span>,<span class="number">34</span>,<span class="string">&#x27;ab&#x27;</span>);        ④字符串长度 <span class="keyword">select</span> length(<span class="string">&#x27;abc&#x27;</span>);</span><br><span class="line">⑤截取字符串<span class="keyword">select</span> <span class="built_in">substring</span>(<span class="string">&#x27;abc123&#x27;</span>,<span class="number">2</span>,<span class="number">3</span>); ⑥去除空格 <span class="keyword">select</span> <span class="built_in">trim</span>(<span class="string">&#x27; bar &#x27;</span>);</span><br><span class="line">⑦替换字符串<span class="keyword">select</span> replace(<span class="string">&#x27;abc123&#x27;</span>,<span class="string">&#x27;123&#x27;</span>,<span class="string">&#x27;def&#x27;</span>);    ⑧大小写转换 <span class="keyword">select</span> <span class="built_in">lower</span>(<span class="string">&#x27;aBcD&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p> <strong>六、数学函数</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">①绝对值<span class="built_in">abs</span>()        ②求余<span class="built_in">mod</span>()  ③向下取整 floor（）    ④向上取整<span class="built_in">ceiling</span>()       ⑤四舍五入 round()</span><br><span class="line">⑥x的y次幂pow(x,y)     ⑦圆周率PI()   ⑧<span class="number">0</span><span class="number">-1.0</span>的随机浮点数 rand()</span><br></pre></td></tr></table></figure>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Mysql语发汇总
+一、数据库基础操作</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2023/05/29/Mysql%E8%AF%AD%E6%B3%95%E6%B1%87%E6%80%BB/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-My-New-Post" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -687,6 +798,11 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">111，大家好</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Mysql语发汇总
+一、数据库基础操作</a>
               </li>
             
             <div class="clearfix"></div>
